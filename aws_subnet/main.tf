@@ -6,6 +6,13 @@ terraform {
       version = "~>4.0"
     }
   }
+
+  backend "s3" {
+    bucket = "terraform-state-dipti"
+    key = "prod/terraform.tfstate"
+    region = "ap-southeast-1"
+    dynamodb_table = "terraform-lock"
+  }
 }
 
 
@@ -27,7 +34,7 @@ resource "aws_vpc" "main" {
 
 resource "aws_subnet" "main" {
   vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.20.0/24"
+  cidr_block        = "10.0.20.0/20"
   availability_zone = "ap-south-1a"
   tags = {
     "Name" = "main-subnet"
